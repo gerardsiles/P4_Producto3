@@ -58,10 +58,15 @@ void encontrarDNS(FILE *archivo,char *nombreDNS,char *dns) {
 			if (strstr(ch, "IPv4") != NULL) {
 				sscanf(ch, "%*[^:]: %[^\n]", dns);
 			}
-		}
+		}		
+	}
+	if (encontrado == 0) {
+		puts("el dns introducido no se ha encontrado");
+		return -1;
 	}
 }
 
+// Funcion para lanzar pings a una serie de ip y redireccionarlo a un archivo
 void lanzarPing(FILE** input) {
 	int ping = 0;
 	if (input != NULL) {
@@ -83,4 +88,44 @@ void lanzarPing(FILE** input) {
 			}
 		}
 	}
+}
+
+void comprobarConexionIp(FILE** archivo) {
+	FILE* ipsConConexion = NULL;
+	char ch[BUFFER_SIZE] = "";
+	char ip[30] = "";
+	int paquetesRecibidos = 5, encontrado = 0, lineasContadas = -1;
+	ipsConConexion = fopen("ipsConConecion.txt", "w+");
+	if (ipsConConexion == NULL) {
+		puts("Se ha producido un error. Reinicie el programa.");
+		return -1;
+	}
+	puts("comprobar conexion");
+	while ((fgets(ch, sizeof(ch), archivo)) != NULL) {
+		if (strstr(ch, "Ping") && (encontrado == 0)) {
+			sscanf(ch, "%*[^0-9]%s", &ip);
+			encontrado = 1;
+		}
+		if (strstr(ch, "Received")) {
+			sscanf(ch, "%*[^=]=%*[^=]=%d", &paquetesRecibidos);
+		}
+
+		if (strcmp(ch, "\n") == 0 ) {
+			lineasContadas++;
+		}
+		/* 
+		al terminar de leer la informacion del dns, procedemos a grabarlo en un fichero
+		si ha habido conexion con la ip
+		*/
+		if (lineasContadas == 2) {
+			if (paquetesRecibidos > 0) {
+				fputs(strcat(ip, "\n"), ipsConConexion);
+			} 
+			// reiniciar variables
+			lineasContadas = 0;
+			encontrado = 0;
+			strcpy(ip, "");
+		}
+	}
+	fclose(ipsConConexion);
 }

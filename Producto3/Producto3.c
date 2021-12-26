@@ -15,8 +15,13 @@ int main() {
 	FILE* ipconfig = NULL;
 	char rutaArchivo[100] = "";
 	char nombreDNS[30] = "";
-
 	char IPv4[30] = "";
+
+	archivoIP = fopen("pingsip.txt", "r");
+	if (archivoIP == NULL) {
+		printf("No se pudo abrir el archivo con la informacion de las ip, reinicia el programa.\n");
+		return -1;
+	}
 
 	// Recibir la ruta del archivo con las ip
 	// TEST C:\Users\gerar\source\repos\Producto3\Producto3\DNSips.txt
@@ -76,6 +81,17 @@ int main() {
 	printf("ips comprobadas. Gracias por la espera.\n");
 	
 	// si son accesibles, escribirlas en un archivo temporal
+
+	// cerramos el archivo para reutilizar la variable
+	fclose(archivoIP);
+	archivoIP = fopen("pingsip.txt", "r");
+	if (archivoIP == NULL) {
+		printf("No se pudo abrir el archivo con la informacion de las ip, reinicia el programa.\n");
+		return -1;
+	}
+	comprobarConexionIp(archivoIP);
+
+	//comprobarConexionIp(archivoIP);
 	// Comprobar cual de los dns es el mas rapido entre los del dnsips y el archivo temporal
 	// Cambiar si es mas rapido
 	return 0;
