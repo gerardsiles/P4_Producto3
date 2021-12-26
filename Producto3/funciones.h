@@ -29,20 +29,15 @@ int leeCad(char* cad, int n) {
 	return 1;
 };
 
-int contienePalabra(char a[], char b[]) {
-	if (strstr(a, b) != NULL) {
-		return 1;
-	}
-	else {
-		return 0;
-	}
+int contienePalabra(char *a, char *b) {
+	if (strstr(a, b) != NULL) return 1;
+	return 0;
 }
 
 // Funcion para leer contenido de un archivo
 int leerArchivo(char nombreArchivo[], FILE** archivo) {
 	int error = 0;
 	if ((*archivo = fopen(nombreArchivo, "r")) == NULL) {
-
 		error = 1;
 	}
 	return error;
@@ -58,7 +53,24 @@ void imprimirArchivo(FILE *input) {
 	printf("\n");
 }
 
-void encontrarDNS(char nombre[]) {
-	//TODO
-	system("ipconfig > \"ipconfig.txt\"");
+// Funcion que, dado un adaptador de red, encuentra su DNS
+void encontrarDNS(FILE *archivo,char *nombreDNS,char *dns) {
+	char ch[BUFFER_SIZE] = "";
+	int numeroDeLineasVacias = 0;
+	int encontrado = 0;
+
+	while (((fgets(ch, BUFFER_SIZE, archivo)) != NULL) && numeroDeLineasVacias != 2) {
+		// Buscar la primera ocurrencia del dns
+
+		if ((strstr(ch, nombreDNS) != NULL) || (encontrado == 1)) {
+			encontrado = 1;
+			if (strcmp(ch, "\n") == 0) {
+				numeroDeLineasVacias++;
+			}
+
+			if (strstr(ch, "IPv4") != NULL) {
+				sscanf(ch, "%*[^:]: %[^\n]", dns);
+			}
+		}
+	}
 }
