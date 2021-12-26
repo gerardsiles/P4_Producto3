@@ -1,0 +1,38 @@
+
+Pinging 192.168.17.127 with 32 bytes of data:
+Request timed out.
+Request timed out.
+Request timed out.
+Request timed out.
+
+Ping statistics for 192.168.17.127:
+    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
+
+Pinging 8.8.8.8 with 32 bytes of data:
+Reply from 8.8.8.8: bytes=32 time=92ms TTL=116
+Reply from 8.8.8.8: bytes=32 time=87ms TTL=116
+Reply from 8.8.8.8: bytes=32 time=81ms TTL=116
+Reply from 8.8.8.8: bytes=32 time=58ms TTL=116
+
+Ping statistics for 8.8.8.8:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 58ms, Maximum = 92ms, Average = 79ms
+
+Pinging 6.6.6.6 with 32 bytes of data:
+Request timed out.
+Request timed out.
+Request timed out.
+Request timed out.
+
+Ping statistics for 6.6.6.6:
+    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
+
+Pinging 192.168.17.125 with 32 bytes of data:
+Request timed out.
+Request timed out.
+Request timed out.
+Request timed out.
+
+Ping statistics for 192.168.17.125:
+    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),

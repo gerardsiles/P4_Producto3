@@ -29,19 +29,6 @@ int leeCad(char* cad, int n) {
 	return 1;
 };
 
-int contienePalabra(char *a, char *b) {
-	if (strstr(a, b) != NULL) return 1;
-	return 0;
-}
-
-// Funcion para leer contenido de un archivo
-int leerArchivo(char nombreArchivo[], FILE** archivo) {
-	int error = 0;
-	if ((*archivo = fopen(nombreArchivo, "r")) == NULL) {
-		error = 1;
-	}
-	return error;
-}
 
 // Funcion para mostrar por pantalla el contenido de un archivo
 void imprimirArchivo(FILE *input) {
@@ -70,6 +57,29 @@ void encontrarDNS(FILE *archivo,char *nombreDNS,char *dns) {
 
 			if (strstr(ch, "IPv4") != NULL) {
 				sscanf(ch, "%*[^:]: %[^\n]", dns);
+			}
+		}
+	}
+}
+
+void lanzarPing(FILE** input) {
+	int ping = 0;
+	if (input != NULL) {
+		char comandoPing[80] = "ping ";
+		char ip[30] = "";
+		while ((fgets(ip, sizeof(ip), input)) != NULL) {
+			// Remover \n del final de la ip
+			ip[strcspn(ip, "\n")] = 0;
+			// Si es la primera ocurrencia, creamos el archivo
+			if (ping < 1) {
+				strcat(strcat(comandoPing, ip), " > \"pingsip.txt\"");
+				system(comandoPing);
+				ping++;
+			}
+			else {
+				// si no es el primer ping, reiniciar string y reconstruir el comando
+				strcat(strcat(strcat(strcpy(comandoPing, ""), "ping "), ip), "  >> \"pingsip.txt\"");
+				system(comandoPing);
 			}
 		}
 	}

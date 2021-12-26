@@ -11,7 +11,7 @@
 
 
 int main() {
-	FILE* archivo = NULL;
+	FILE* archivoIP = NULL;
 	FILE* ipconfig = NULL;
 	char rutaArchivo[100] = "";
 	char nombreDNS[30] = "";
@@ -19,22 +19,24 @@ int main() {
 	char IPv4[30] = "";
 
 	// Recibir la ruta del archivo con las ip
-	// TEST C:\Users\gerar\source\repos\Producto3\Producto3\copia_archivo.txt
+	// TEST C:\Users\gerar\source\repos\Producto3\Producto3\DNSips.txt
 	do {
 		printf("Introduzca la direccion del archivo:\n");
 		leeCad(rutaArchivo, 100);
-		if (leerArchivo(rutaArchivo, &archivo) != 1) {
+		archivoIP = fopen(rutaArchivo, "r");
+		if (archivoIP != NULL) {
 			puts("/--------------------------/");
 			printf("Contenido del archivo %s.\n", rutaArchivo);
 			puts("/--------------------------/");
 			// mostrar y copiar contenido del archivo
-			imprimirArchivo(archivo);
+			imprimirArchivo(archivoIP);
 		}
 		else {
 			printf("No se pudo abrir el archivo, comprueba que la ruta sea correcta.\n");
 			puts("/--------------------------/");
 		}
-	} while (archivo == NULL);
+	} while (archivoIP == NULL);
+	fclose(archivoIP);
 
 	// Preguntar por el adaptador de red
 	puts("/--------------------------/");
@@ -44,20 +46,38 @@ int main() {
 
 	// Conseguimos la informacion de los conectores de red donde esta conectado
 	system("ipconfig > \"ipconfig.txt\"");
-
+	ipconfig = fopen("ipconfig.txt", "r");
 	// Comprobar que el archivo de texto con la configuracion de los DNS se haya creado con exito
-	if (leerArchivo("ipconfig.txt", &ipconfig) == 1) {
+	if (ipconfig == NULL) {
 		printf("Ha surgido un error, reinicia el programa.\n");
 		return -1;
 	}
 
 	// Mostrar configuracion actual del DNS a traves del ipconfig
 	encontrarDNS(ipconfig, &nombreDNS, &IPv4);
-	printf("El DNS actual es %s", IPv4);
+	printf("El DNS actual es %s\n", IPv4);
+	// Con la informacion del DNS conseguida, ya podemos cerrar el archivo de ipconfig
+	fclose(ipconfig);
+
+	// Eliminar del sistema el archivo creado
+	if (remove("ipconfig.txt") == 0) {
+		printf("Archivo ipconfig.txt borrado.\n");
+	}
+	else {
+		printf("El archivo ipconfig.txt no se ha podido borrar o no existe.\n");
+	}
 
 	// comprobar si las ip son accesibles
+	printf("Comprobando que las ip son accesibles, esto puede tardar un rato.\n");
+	archivoIP = fopen(rutaArchivo, "r");
+	if (archivoIP != NULL) {
+		lanzarPing(archivoIP);
+	}
+	printf("ips comprobadas. Gracias por la espera.\n");
+	
 	// si son accesibles, escribirlas en un archivo temporal
 	// Comprobar cual de los dns es el mas rapido entre los del dnsips y el archivo temporal
+	// Cambiar si es mas rapido
 	return 0;
 }
 
