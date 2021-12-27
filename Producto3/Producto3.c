@@ -20,7 +20,8 @@ int main() {
 	char DNS[30] = "";
 
 	// Recibir la ruta del archivo con las ip
-	// TEST C:\Users\gerar\source\repos\Producto3\Producto3\DNSips.txt
+	// DNSips.txt
+	// Wireless LAN adapter Wi-Fi
 	do {
 		printf("Introduzca la direccion del archivo:\n");
 		leeCad(rutaArchivo, 100);
@@ -29,11 +30,11 @@ int main() {
 			puts("/--------------------------/");
 			printf("Contenido del archivo %s.\n", rutaArchivo);
 			puts("/--------------------------/");
-			// mostrar y copiar contenido del archivo
+			// mostrar contenido del archivo por pantalla
 			imprimirArchivo(archivoIP);
 		}
 		else {
-			printf("No se pudo abrir el archivo, comprueba que la ruta sea correcta.\n");
+			printf(ANSI_COLOR_RED "No se pudo abrir el archivo, comprueba que la ruta sea correcta.\n" ANSI_COLOR_RESET);
 			puts("/--------------------------/");
 		}
 	} while (archivoIP == NULL);
@@ -51,13 +52,13 @@ int main() {
 
 	// Comprobar que el archivo de texto con la configuracion de los DNS se haya creado con exito
 	if (ipconfig == NULL) {
-		printf("Ha surgido un error, reinicia el programa.\n");
+		printf(ANSI_COLOR_RED "Ha surgido un error, reinicia el programa.\n" ANSI_COLOR_RESET);
 		return -1;
 	}
 
 	// Mostrar configuracion actual del DNS a traves del ipconfig
 	encontrarDNS(ipconfig, &nombreDNS, &DNS);
-	printf("El DNS actual es %s\n", DNS);
+	printf("El DNS actual es" ANSI_COLOR_YELLOW " %s" ANSI_COLOR_RESET "\n", DNS);
 	// Con la informacion del DNS conseguida, ya podemos cerrar el archivo de ipconfig
 	fclose(ipconfig);
 
@@ -69,6 +70,10 @@ int main() {
 	if (archivoIP != NULL) {
 		lanzarPing(archivoIP);
 		fclose(archivoIP);
+	}
+	else {
+		puts(ANSI_COLOR_RED "No se pudo abrir el archivo. Reinicie el programa." ANSI_COLOR_RESET);
+		exit(1);
 	}
 	printf("ips comprobadas. Gracias por la espera.\n");
 
@@ -87,8 +92,20 @@ int main() {
 
 	// Comprobar cual de los dns es el mas rapido en el archivo temporal
 	// Abrir el archivo
-	// lanzar funcion por cada ip
-	// Actualizar si es mas rapido
+	puts("/--------------------------/");
+	puts("Comprobando que conexion es la mas rapida");
+	puts("/--------------------------/");
+
+	if (fopen("ipsConConexion.txt", "r") != NULL) {
+		// lanzar funcion por cada ip
+		// Actualizar si es mas rapido
+	}
+	else {
+		puts(ANSI_COLOR_RED "No se pudo abrir el archivo, reinicie el programa." ANSI_COLOR_RESET);
+		exit(1); 
+	}
+	fclose("ipsConConexion.txt");
+
 	// cerrar el archivo
 	// Cambiar si es mas rapido
 	// borrar archivos generados

@@ -7,6 +7,10 @@
 //tamano del bugger para leer
 #define BUFFER_SIZE 256
 #define IP_SIZE 30
+// Colores para los mensajes en pantalla
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
 // Funcion para leer strings
 int leeCad(char* cad, int n) {
@@ -36,7 +40,7 @@ int leeCad(char* cad, int n) {
 void imprimirArchivo(FILE *input) {
 	char ip[IP_SIZE] = "";
 	while ((fgets(ip, IP_SIZE, input) != NULL)) {
-		printf("%s", ip);
+		printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, ip);
 		//fputs(ip, copiaArchivo);
 	}
 	printf("\n");
@@ -63,7 +67,7 @@ void encontrarDNS(FILE *archivo,char *nombreDNS,char *dns) {
 		}		
 	}
 	if ((encontrado == 0) || (dns == "")) {
-		puts("el dns introducido no se ha encontrado");
+		puts(ANSI_COLOR_RED "el dns introducido no se ha encontrado, reinicie la aplicacion." ANSI_COLOR_RESET);
 		exit(1);
 	}
 }
@@ -122,6 +126,7 @@ void comprobarConexionIp(FILE** archivo) {
 		*/
 		if (lineasContadas == 2) {
 			if (paquetesRecibidos > 0) {
+				printf("La ip" ANSI_COLOR_YELLOW " %s" ANSI_COLOR_RESET " ha tenido conexion.\n", ip);
 				fputs(strcat(ip, "\n"), ipsConConexion);
 			} 
 			// reiniciar variables
