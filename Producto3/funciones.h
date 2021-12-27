@@ -57,14 +57,14 @@ void encontrarDNS(FILE *archivo,char *nombreDNS,char *dns) {
 				numeroDeLineasVacias++;
 			}
 
-			if (strstr(ch, "IPv4") != NULL) {
+			if (strstr(ch, "DNS Servers") != NULL) {
 				sscanf(ch, "%*[^:]: %[^\n]", dns);
 			}
 		}		
 	}
-	if (encontrado == 0) {
+	if ((encontrado == 0) || (dns == "")) {
 		puts("el dns introducido no se ha encontrado");
-		return -1;
+		exit(1);
 	}
 }
 
@@ -109,7 +109,7 @@ void comprobarConexionIp(FILE** archivo) {
 			sscanf(ch, "%*[^0-9]%s", &ip);
 			encontrado = 1;
 		}
-		if (strstr(ch, "Received")) {
+		if ((strstr(ch, "Received") || strstr(ch, "Recibido"))) {
 			sscanf(ch, "%*[^=]=%*[^=]=%d", &paquetesRecibidos);
 		}
 

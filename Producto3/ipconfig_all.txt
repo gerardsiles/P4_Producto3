@@ -1,0 +1,69 @@
+
+Windows IP Configuration
+
+   Host Name . . . . . . . . . . . . : Gerard
+   Primary Dns Suffix  . . . . . . . : 
+   Node Type . . . . . . . . . . . . : Hybrid
+   IP Routing Enabled. . . . . . . . : No
+   WINS Proxy Enabled. . . . . . . . : No
+
+Ethernet adapter VirtualBox Host-Only Network:
+
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : VirtualBox Host-Only Ethernet Adapter
+   Physical Address. . . . . . . . . : 0A-00-27-00-00-17
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::8a0:939b:77d6:5d94%23(Preferred) 
+   IPv4 Address. . . . . . . . . . . : 192.168.56.1(Preferred) 
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Default Gateway . . . . . . . . . : 
+   DHCPv6 IAID . . . . . . . . . . . : 705298471
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-25-A6-59-0A-9C-B6-D0-C0-8A-2F
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+Wireless LAN adapter Local Area Connection* 3:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter #3
+   Physical Address. . . . . . . . . : 9E-B6-D0-C0-8A-2F
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Local Area Connection* 12:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Microsoft Wi-Fi Direct Virtual Adapter #4
+   Physical Address. . . . . . . . . : AE-B6-D0-C0-8A-2F
+   DHCP Enabled. . . . . . . . . . . : No
+   Autoconfiguration Enabled . . . . : Yes
+
+Wireless LAN adapter Wi-Fi:
+
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Killer Wireless-n/a/ac 1535 Wireless Network Adapter
+   Physical Address. . . . . . . . . : 9C-B6-D0-C0-8A-2F
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
+   Link-local IPv6 Address . . . . . : fe80::e008:5d73:3305:2a%7(Preferred) 
+   IPv4 Address. . . . . . . . . . . : 192.168.8.100(Preferred) 
+   Subnet Mask . . . . . . . . . . . : 255.255.255.0
+   Lease Obtained. . . . . . . . . . : Thursday, December 23, 2021 9:57:14 AM
+   Lease Expires . . . . . . . . . . : Tuesday, December 28, 2021 5:24:46 PM
+   Default Gateway . . . . . . . . . : 192.168.8.1
+   DHCP Server . . . . . . . . . . . : 192.168.8.1
+   DHCPv6 IAID . . . . . . . . . . . : 77379280
+   DHCPv6 Client DUID. . . . . . . . : 00-01-00-01-25-A6-59-0A-9C-B6-D0-C0-8A-2F
+   DNS Servers . . . . . . . . . . . : 192.168.8.1
+   NetBIOS over Tcpip. . . . . . . . : Enabled
+
+Ethernet adapter Bluetooth Network Connection 2:
+
+   Media State . . . . . . . . . . . : Media disconnected
+   Connection-specific DNS Suffix  . : 
+   Description . . . . . . . . . . . : Bluetooth Device (Personal Area Network) #2
+   Physical Address. . . . . . . . . : 9C-B6-D0-C0-8A-30
+   DHCP Enabled. . . . . . . . . . . : Yes
+   Autoconfiguration Enabled . . . . : Yes
