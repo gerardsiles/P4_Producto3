@@ -1,4 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS 
+#define _CRT_SECURE_NO_DEPRECATE  
+#define _CRT_NONSTDC_NO_DEPRECATE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,6 +48,7 @@ int main() {
 	// Conseguimos la informacion de los conectores de red donde esta conectado
 	system("ipconfig > \"ipconfig.txt\"");
 	ipconfig = fopen("ipconfig.txt", "r");
+
 	// Comprobar que el archivo de texto con la configuracion de los DNS se haya creado con exito
 	if (ipconfig == NULL) {
 		printf("Ha surgido un error, reinicia el programa.\n");
@@ -58,13 +61,7 @@ int main() {
 	// Con la informacion del DNS conseguida, ya podemos cerrar el archivo de ipconfig
 	fclose(ipconfig);
 
-	// Eliminar del sistema el archivo creado
-	if (remove("ipconfig.txt") == 0) {
-		printf("Archivo ipconfig.txt borrado.\n");
-	}
-	else {
-		printf("El archivo ipconfig.txt no se ha podido borrar o no existe.\n");
-	}
+
 
 	// comprobar si las ip son accesibles
 	printf("Comprobando que las ip son accesibles, esto puede tardar un rato.\n");
@@ -75,19 +72,39 @@ int main() {
 	printf("ips comprobadas. Gracias por la espera.\n");
 	fclose(archivoIP);
 
-
-	// cerramos el archivo para reutilizar la variable
-
+	// reutilizamos la variable FILE
 	archivoIP = fopen("pingsip.txt", "r");
 	if (archivoIP == NULL) {
 		printf("No se pudo abrir el archivo con la informacion de las ip, reinicia el programa.\n");
 		return -1;
 	}
+
+	puts("comprobando si las ip respondieron.");
+	puts("/--------------------------/");
+
 	comprobarConexionIp(archivoIP);
+	puts("Comprobacion terminada.");
 
 	// Comprobar cual de los dns es el mas rapido en el archivo temporal
 	// Cambiar si es mas rapido
 	// borrar archivos generados
+
+	// Eliminar del sistema los archivos creados durante la ejecucion del programa
+	puts("Procediendo a borrar los archivos de texto generados durante la ejecucion");
+	puts("/--------------------------/");
+
+	if (remove("ipconfig.txt") == 0) {
+		printf("Archivo ipconfig.txt borrado.\n");
+	}
+	else {
+		printf("El archivo ipconfig.txt no se ha podido borrar o no existe.\n");
+	}
+	if (remove("ipsConConexion.txt.txt") == 0) {
+		printf("Archivo ipsConConexion.txt borrado.\n");
+	}
+	else {
+		printf("El archivo ipsConConexion.txt no se ha podido borrar o no existe.\n");
+	}
 	return 0;
 }
 

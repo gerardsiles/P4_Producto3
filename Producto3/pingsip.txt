@@ -11,26 +11,26 @@ Approximate round trip times in milli-seconds:
     Minimum = 0ms, Maximum = 0ms, Average = 0ms
 
 Pinging 8.8.8.8 with 32 bytes of data:
-Reply from 8.8.8.8: bytes=32 time=110ms TTL=116
-Reply from 8.8.8.8: bytes=32 time=79ms TTL=116
-Reply from 8.8.8.8: bytes=32 time=101ms TTL=116
-Reply from 8.8.8.8: bytes=32 time=79ms TTL=116
+Reply from 8.8.8.8: bytes=32 time=78ms TTL=116
+Reply from 8.8.8.8: bytes=32 time=87ms TTL=116
+Reply from 8.8.8.8: bytes=32 time=69ms TTL=116
+Reply from 8.8.8.8: bytes=32 time=115ms TTL=116
 
 Ping statistics for 8.8.8.8:
     Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
 Approximate round trip times in milli-seconds:
-    Minimum = 79ms, Maximum = 110ms, Average = 92ms
+    Minimum = 69ms, Maximum = 115ms, Average = 87ms
 
 Pinging 192.168.8.1 with 32 bytes of data:
 Reply from 192.168.8.1: bytes=32 time=4ms TTL=64
-Reply from 192.168.8.1: bytes=32 time=5ms TTL=64
-Reply from 192.168.8.1: bytes=32 time=8ms TTL=64
 Reply from 192.168.8.1: bytes=32 time=4ms TTL=64
+Reply from 192.168.8.1: bytes=32 time=4ms TTL=64
+Reply from 192.168.8.1: bytes=32 time=5ms TTL=64
 
 Ping statistics for 192.168.8.1:
     Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
 Approximate round trip times in milli-seconds:
-    Minimum = 4ms, Maximum = 8ms, Average = 5ms
+    Minimum = 4ms, Maximum = 5ms, Average = 4ms
 
 Pinging 192.168.17.125 with 32 bytes of data:
 Request timed out.

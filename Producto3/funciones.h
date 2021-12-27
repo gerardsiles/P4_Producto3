@@ -1,4 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_DEPRECATE  
+#define _CRT_NONSTDC_NO_DEPRECATE
 
 #pragma once
 #define _GNU_SOURCE
@@ -90,17 +92,18 @@ void lanzarPing(FILE** input) {
 	}
 }
 
+// Funcion que comprueba si las ip anteriores han tenido conexion
 void comprobarConexionIp(FILE** archivo) {
 	FILE* ipsConConexion = NULL;
 	char ch[BUFFER_SIZE] = "";
 	char ip[30] = "";
 	int paquetesRecibidos = 5, encontrado = 0, lineasContadas = -1;
-	ipsConConexion = fopen("ipsConConecion.txt", "w+");
+	ipsConConexion = fopen("ipsConConexion.txt", "w+");
 	if (ipsConConexion == NULL) {
 		puts("Se ha producido un error. Reinicie el programa.");
 		return -1;
 	}
-	puts("comprobar conexion");
+
 	while ((fgets(ch, sizeof(ch), archivo)) != NULL) {
 		if (strstr(ch, "Ping") && (encontrado == 0)) {
 			sscanf(ch, "%*[^0-9]%s", &ip);
