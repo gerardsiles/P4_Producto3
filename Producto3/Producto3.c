@@ -86,6 +86,10 @@ int main() {
 	fclose(archivoIP);
 
 	// Comprobar cual de los dns es el mas rapido en el archivo temporal
+	// Abrir el archivo
+	// lanzar funcion por cada ip
+	// Actualizar si es mas rapido
+	// cerrar el archivo
 	// Cambiar si es mas rapido
 	// borrar archivos generados
 

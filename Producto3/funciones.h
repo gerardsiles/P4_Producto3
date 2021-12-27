@@ -133,6 +133,6 @@ void comprobarConexionIp(FILE** archivo) {
 	fclose(ipsConConexion);
 }
 
-void conexionMasRapida() {
+void conexionMasRapida(FILE** archivo) {
 
 }
