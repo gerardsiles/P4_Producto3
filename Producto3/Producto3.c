@@ -14,13 +14,18 @@
 
 int main() {
 	FILE* archivoIP = NULL;
+	FILE* ipResponde = NULL;
 	FILE* ipconfig = NULL;
 	char rutaArchivo[100] = "";
 	char nombreDNS[150] = "";
 	char DNS[30] = "";
+	char DNSMasRapido[30] = "";
+
+
 
 	// Recibir la ruta del archivo con las ip
 	// DNSips.txt
+	// // C:\Users\gerar\source\repos\Producto3\Producto3\DNSips.txt
 	// Wireless LAN adapter Wi-Fi
 	do {
 		printf("Introduzca la direccion del archivo:\n");
@@ -28,7 +33,7 @@ int main() {
 		archivoIP = fopen(rutaArchivo, "r");
 		if (archivoIP != NULL) {
 			puts("/--------------------------/");
-			printf("Contenido del archivo %s.\n", rutaArchivo);
+			printf("Contenido del archivo" ANSI_COLOR_GREEN " %s.\n" ANSI_COLOR_RESET, rutaArchivo);
 			puts("/--------------------------/");
 			// mostrar contenido del archivo por pantalla
 			imprimirArchivo(archivoIP);
@@ -69,12 +74,12 @@ int main() {
 	archivoIP = fopen(rutaArchivo, "r");
 	if (archivoIP != NULL) {
 		lanzarPing(archivoIP);
-		fclose(archivoIP);
 	}
 	else {
 		puts(ANSI_COLOR_RED "No se pudo abrir el archivo. Reinicie el programa." ANSI_COLOR_RESET);
 		exit(1);
 	}
+	fclose(archivoIP);
 	printf("ips comprobadas. Gracias por la espera.\n");
 
 	// reutilizamos la variable FILE
@@ -86,8 +91,9 @@ int main() {
 
 	puts("comprobando si las ip respondieron.");
 	puts("/--------------------------/");
-	comprobarConexionIp(archivoIP);
+	comprobarConexionIp(archivoIP, DNS);
 	puts("Comprobacion terminada.");
+	// cerrar el archivo
 	fclose(archivoIP);
 
 	// Comprobar cual de los dns es el mas rapido en el archivo temporal
@@ -96,36 +102,54 @@ int main() {
 	puts("Comprobando que conexion es la mas rapida");
 	puts("/--------------------------/");
 
-	if (fopen("ipsConConexion.txt", "r") != NULL) {
-		// lanzar funcion por cada ip
-		// Actualizar si es mas rapido
+	ipResponde = fopen("ipsConConexion.txt", "r");
+	if (ipResponde == NULL) {
+		printf(ANSI_COLOR_RED "No se pudo abrir el archivo con la informacion de las ip, reinicia el programa.\n" ANSI_COLOR_RESET);
+		return -1;
+	}
+	// comprobamos la velocidad de las ip que han dado respuesta
+	lanzarPing(ipResponde);
+	fclose(ipResponde);
+
+	archivoIP = fopen("pingsip.txt", "r");
+	if (archivoIP == NULL) {
+		puts(ANSI_COLOR_RED "Se ha producido un error. Reinicie el programa." ANSI_COLOR_RESET);
+		return -1;
+	}
+	
+	conexionMasRapida(archivoIP, DNSMasRapido);
+	fclose(archivoIP);
+
+	// Cambiar si es mas rapido
+	if (strcmp(DNS, DNSMasRapido) != 0) {
+		puts("prueba");
 	}
 	else {
-		puts(ANSI_COLOR_RED "No se pudo abrir el archivo, reinicie el programa." ANSI_COLOR_RESET);
-		exit(1); 
+		puts("El DNS introducido es el mas rapido, no se van a aplicar ningun cambio.");
 	}
-	fclose("ipsConConexion.txt");
-
-	// cerrar el archivo
-	// Cambiar si es mas rapido
-	// borrar archivos generados
 
 	// Eliminar del sistema los archivos creados durante la ejecucion del programa
 	puts("Procediendo a borrar los archivos de texto generados durante la ejecucion");
 	puts("/--------------------------/");
 
-	//if (remove("ipconfig_all.txt") == 0) {
-	//	printf("Archivo ipconfig_all.txt borrado.\n");
-	//}
-	//else {
-	//	printf("El archivo ipconfig_all.txt no se ha podido borrar o no existe.\n");
-	//}
-	//if (remove("ipsConConexion.txt.txt") == 0) {
-	//	printf("Archivo ipsConConexion.txt borrado.\n");
-	//}
-	//else {
-	//	printf("El archivo ipsConConexion.txt no se ha podido borrar o no existe.\n");
-	//}
+	if (remove("ipconfig_all.txt") == 0) {
+		printf("Archivo ipconfig_all.txt borrado.\n");
+	}
+	else {
+		printf("El archivo ipconfig_all.txt no se ha podido borrar o no existe.\n");
+	}
+	if (remove("ipsConConexion.txt") == 0) {
+		printf("Archivo ipsConConexion.txt borrado.\n");
+	}
+	else {
+		printf("El archivo ipsConConexion.txt no se ha podido borrar o no existe.\n");
+	}
+	if (remove("pingsip.txt") == 0) {
+		printf("Archivo pings.txt borrado.\n");
+	}
+	else {
+		printf("El archivo pings.txt no se ha podido borrar o no existe.\n");
+	}
 	return 0;
 }
 

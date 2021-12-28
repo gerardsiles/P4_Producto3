@@ -10,6 +10,7 @@
 // Colores para los mensajes en pantalla
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
 #define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 // Funcion para leer strings
@@ -36,12 +37,12 @@ int leeCad(char* cad, int n) {
 };
 
 
-// Funcion para mostrar por pantalla el contenido de un archivo
+// Funcion para mostrar por pantalla el contenido de un archivo con una serie de ips
 void imprimirArchivo(FILE *input) {
 	char ip[IP_SIZE] = "";
+
 	while ((fgets(ip, IP_SIZE, input) != NULL)) {
 		printf(ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, ip);
-		//fputs(ip, copiaArchivo);
 	}
 	printf("\n");
 }
@@ -66,8 +67,8 @@ void encontrarDNS(FILE *archivo,char *nombreDNS,char *dns) {
 			}
 		}		
 	}
-	if ((encontrado == 0) || (dns == "")) {
-		puts(ANSI_COLOR_RED "el dns introducido no se ha encontrado, reinicie la aplicacion." ANSI_COLOR_RESET);
+	if ((encontrado == 0) || (strlen(dns) == 0)) {
+		puts(ANSI_COLOR_RED "el adaptador de red introducido no se ha encontrado, comprueba que el nombre introducido sea el del adaptador." ANSI_COLOR_RESET);
 		exit(1);
 	}
 }
@@ -78,6 +79,7 @@ void lanzarPing(FILE** input) {
 	if (input != NULL) {
 		char comandoPing[80] = "ping ";
 		char ip[30] = "";
+
 		while ((fgets(ip, sizeof(ip), input)) != NULL) {
 			// Remover \n del final de la ip
 			ip[strcspn(ip, "\n")] = 0;
@@ -97,14 +99,14 @@ void lanzarPing(FILE** input) {
 }
 
 // Funcion que comprueba si las ip anteriores han tenido conexion
-void comprobarConexionIp(FILE** archivo) {
+void comprobarConexionIp(FILE** archivo, char *dns) {
 	FILE* ipsConConexion = NULL;
 	char ch[BUFFER_SIZE] = "";
 	char ip[30] = "";
-	int paquetesRecibidos = 5, encontrado = 0, lineasContadas = -1;
+	int paquetesRecibidos = 5, encontrado = 0, escaneado = 0;
 	ipsConConexion = fopen("ipsConConexion.txt", "w+");
 	if (ipsConConexion == NULL) {
-		puts("Se ha producido un error. Reinicie el programa.");
+		puts(ANSI_COLOR_RED "Se ha producido un error. Reinicie el programa." ANSI_COLOR_RESET);
 		return -1;
 	}
 
@@ -115,29 +117,66 @@ void comprobarConexionIp(FILE** archivo) {
 		}
 		if ((strstr(ch, "Received") || strstr(ch, "Recibido"))) {
 			sscanf(ch, "%*[^=]=%*[^=]=%d", &paquetesRecibidos);
-		}
-
-		if (strcmp(ch, "\n") == 0 ) {
-			lineasContadas++;
+			escaneado = 1;
 		}
 		/* 
 		al terminar de leer la informacion del dns, procedemos a grabarlo en un fichero
 		si ha habido conexion con la ip
 		*/
-		if (lineasContadas == 2) {
+		if (escaneado == 1){
 			if (paquetesRecibidos > 0) {
 				printf("La ip" ANSI_COLOR_YELLOW " %s" ANSI_COLOR_RESET " ha tenido conexion.\n", ip);
 				fputs(strcat(ip, "\n"), ipsConConexion);
-			} 
+			}
+			else {
+				printf("La ip" ANSI_COLOR_RED " %s" ANSI_COLOR_RESET "  no ha tenido conexion.\n", ip);
+			}
 			// reiniciar variables
-			lineasContadas = 0;
+			escaneado = 0;
 			encontrado = 0;
 			strcpy(ip, "");
+
 		}
 	}
 	fclose(ipsConConexion);
 }
 
-void conexionMasRapida(FILE** archivo) {
+// Funcion que busca la ip con media mas rapida y devuelve la mas rapida de un archivo
+void conexionMasRapida(FILE** archivo, char *masRapido) {
+	char ch[BUFFER_SIZE] = "";
+	char ip[30] = "";
+	char dnsMasRapido[30] = "";
+	int velocidadMedia = 0, ipMasRapida = 500, encontrado = 0, escaneado = 0;
 
+	while ((fgets(ch, sizeof(ch), archivo)) != NULL) {
+		if (strstr(ch, "Ping") && (encontrado == 0)) {
+			sscanf(ch, "%*[^0-9]%s", &ip);
+			encontrado = 1;
+		}
+
+		if ((strstr(ch, "Average") || strstr(ch, "Media"))) {
+			sscanf(ch, "%*[^=]=%*[^=]=%*[^=]=%d", &velocidadMedia);
+			escaneado = 1;
+		}
+
+		// si hemos terminado de leer una ip, reiniciamos variables
+		if (escaneado == 1) {
+			printf("El DNS" ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET " tiene una velocidad media de %d ms.\n", ip, velocidadMedia);
+			// comprovar las velocidades
+			if (ipMasRapida > velocidadMedia) {
+				strcpy(dnsMasRapido, ip);
+				ipMasRapida = velocidadMedia;
+				printf("El DNS " ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET " es el mas rapido con una velocidad media de %d\n", dnsMasRapido, ipMasRapida);
+			}
+			else {
+				printf("El DNS " ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET " sigue siendo el mas rapido con una velocidad media de %d\n", dnsMasRapido, ipMasRapida);
+
+			}
+			// reiniciar variables
+			escaneado = 0;
+			encontrado = 0;
+			strcpy(ip, "");
+		}
+	}
+	strcpy(masRapido, dnsMasRapido);
 }
